@@ -288,6 +288,103 @@ export const PLANS: Plan[] = [
 export const PLAN_NAMES = PLANS.map((p) => p.name);
 export const planByName = (name: string) => PLANS.find((p) => p.name === name);
 
+export type PricingRule = {
+  plan: string;
+  serviceId: string;
+  amount: number;
+  professionalShare: number;
+  requiresAuthorization: boolean;
+};
+
+/** Tabela demonstrativa usada para pré-calcular cobrança e repasse antes do atendimento. */
+export const PRICING_RULES: PricingRule[] = [
+  {
+    plan: "Particular",
+    serviceId: "to",
+    amount: 180,
+    professionalShare: 70,
+    requiresAuthorization: false,
+  },
+  {
+    plan: "Particular",
+    serviceId: "fono",
+    amount: 180,
+    professionalShare: 70,
+    requiresAuthorization: false,
+  },
+  {
+    plan: "Particular",
+    serviceId: "psi",
+    amount: 200,
+    professionalShare: 70,
+    requiresAuthorization: false,
+  },
+  {
+    plan: "Particular",
+    serviceId: "aval",
+    amount: 950,
+    professionalShare: 60,
+    requiresAuthorization: false,
+  },
+  {
+    plan: "Saúde Petrobras",
+    serviceId: "to",
+    amount: 92,
+    professionalShare: 70,
+    requiresAuthorization: true,
+  },
+  {
+    plan: "Saúde Petrobras",
+    serviceId: "fono",
+    amount: 96,
+    professionalShare: 70,
+    requiresAuthorization: true,
+  },
+  {
+    plan: "SulAmérica",
+    serviceId: "fono",
+    amount: 88,
+    professionalShare: 65,
+    requiresAuthorization: true,
+  },
+  {
+    plan: "GEAP Saúde",
+    serviceId: "to",
+    amount: 84,
+    professionalShare: 65,
+    requiresAuthorization: true,
+  },
+  {
+    plan: "Saúde Caixa",
+    serviceId: "fono",
+    amount: 90,
+    professionalShare: 65,
+    requiresAuthorization: true,
+  },
+  {
+    plan: "Porto Saúde",
+    serviceId: "fisio",
+    amount: 86,
+    professionalShare: 65,
+    requiresAuthorization: true,
+  },
+];
+
+export function pricingRuleFor(plan: string, serviceId: string) {
+  return PRICING_RULES.find((rule) => rule.plan === plan && rule.serviceId === serviceId);
+}
+
+export function calculateAppointmentFinancials(amount: number, professionalShare: number) {
+  const safeAmount = Math.max(0, amount);
+  const safeShare = Math.min(100, Math.max(0, professionalShare));
+  const professional = Number(((safeAmount * safeShare) / 100).toFixed(2));
+  return {
+    gross: safeAmount,
+    professional,
+    clinic: Number((safeAmount - professional).toFixed(2)),
+  };
+}
+
 /**
  * Regra de negócio confirmada no site: todo atendimento por convênio exige
  * encaminhamento médico. Atendimento particular não exige.

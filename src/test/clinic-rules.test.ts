@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   buildSlots,
+  calculateAppointmentFinancials,
   canCancel,
   daysUntilBillingDeadline,
   isValidCpfShape,
@@ -35,5 +36,12 @@ describe("clinic rules", () => {
   it("checks CPF shape by digit count", () => {
     expect(isValidCpfShape("529.982.247-25")).toBe(true);
     expect(isValidCpfShape("529.982.247")).toBe(false);
+  });
+  it("splits a charge between professional and clinic", () => {
+    expect(calculateAppointmentFinancials(180, 70)).toEqual({
+      gross: 180,
+      professional: 126,
+      clinic: 54,
+    });
   });
 });

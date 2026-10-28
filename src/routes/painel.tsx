@@ -1,4 +1,4 @@
-import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useState } from "react";
 import {
   ArrowLeftRight,
@@ -12,6 +12,8 @@ import {
   FolderOpen,
   Globe,
   LogOut,
+  MessageCircle,
+  Tags,
   ShieldCheck,
   Users,
 } from "lucide-react";
@@ -113,10 +115,27 @@ const NAV: {
         roles: ["recepcao", "gestor", "admin"],
       },
       {
+        to: "/painel/planos",
+        label: "Planos e valores",
+        icon: Tags,
+        roles: ["gestor", "admin", "contador"],
+      },
+      {
         to: "/painel/contratos",
         label: "Contratos de locação",
         icon: Files,
         roles: ["gestor", "admin", "contador"],
+      },
+    ],
+  },
+  {
+    group: "Relacionamento",
+    items: [
+      {
+        to: "/painel/whatsapp",
+        label: "Central WhatsApp",
+        icon: MessageCircle,
+        roles: ["recepcao", "gestor", "admin"],
       },
     ],
   },
@@ -153,6 +172,7 @@ const NAV: {
 function Layout() {
   const { perfil } = Route.useSearch();
   const [role, setRole] = useState<Role>(perfil ?? "admin");
+  const navigate = useNavigate();
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const current = NAV.flatMap((group) => group.items).find(
     (item) => item.to === pathname || (item.to !== "/painel" && pathname.startsWith(item.to)),
@@ -224,7 +244,17 @@ function Layout() {
           </div>
           <div className="flex items-center gap-2">
             <ShieldCheck className="h-4 w-4 text-muted-foreground" />
-            <Select value={role} onValueChange={(value) => setRole(value as Role)}>
+            <Select
+              value={role}
+              onValueChange={(value) => {
+                const nextRole = value as Role;
+                setRole(nextRole);
+                void navigate({
+                  search: (previous) => ({ ...previous, perfil: nextRole }),
+                  replace: true,
+                });
+              }}
+            >
               <SelectTrigger className="h-9 w-44" aria-label="Perfil de acesso (demonstração)">
                 <SelectValue />
               </SelectTrigger>

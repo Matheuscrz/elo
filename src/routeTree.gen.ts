@@ -28,9 +28,11 @@ import { Route as PainelContratosRouteImport } from './routes/painel.contratos'
 import { Route as PainelEscalasRouteImport } from './routes/painel.escalas'
 import { Route as PainelFaturamentoRouteImport } from './routes/painel.faturamento'
 import { Route as PainelGestorRouteImport } from './routes/painel.gestor'
+import { Route as PainelPlanosRouteImport } from './routes/painel.planos'
 import { Route as PainelRepassesRouteImport } from './routes/painel.repasses'
 import { Route as PainelSalasRouteImport } from './routes/painel.salas'
 import { Route as PainelUsuariosRouteImport } from './routes/painel.usuarios'
+import { Route as PainelWhatsappRouteImport } from './routes/painel.whatsapp'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -127,6 +129,11 @@ const PainelGestorRoute = PainelGestorRouteImport.update({
   path: '/gestor',
   getParentRoute: () => PainelRoute,
 } as any)
+const PainelPlanosRoute = PainelPlanosRouteImport.update({
+  id: '/planos',
+  path: '/planos',
+  getParentRoute: () => PainelRoute,
+} as any)
 const PainelRepassesRoute = PainelRepassesRouteImport.update({
   id: '/repasses',
   path: '/repasses',
@@ -140,6 +147,11 @@ const PainelSalasRoute = PainelSalasRouteImport.update({
 const PainelUsuariosRoute = PainelUsuariosRouteImport.update({
   id: '/usuarios',
   path: '/usuarios',
+  getParentRoute: () => PainelRoute,
+} as any)
+const PainelWhatsappRoute = PainelWhatsappRouteImport.update({
+  id: '/whatsapp',
+  path: '/whatsapp',
   getParentRoute: () => PainelRoute,
 } as any)
 
@@ -162,9 +174,11 @@ export interface FileRoutesByFullPath {
   '/painel/escalas': typeof PainelEscalasRoute
   '/painel/faturamento': typeof PainelFaturamentoRoute
   '/painel/gestor': typeof PainelGestorRoute
+  '/painel/planos': typeof PainelPlanosRoute
   '/painel/repasses': typeof PainelRepassesRoute
   '/painel/salas': typeof PainelSalasRoute
   '/painel/usuarios': typeof PainelUsuariosRoute
+  '/painel/whatsapp': typeof PainelWhatsappRoute
   '/painel/': typeof PainelIndexRoute
 }
 export interface FileRoutesByTo {
@@ -185,9 +199,11 @@ export interface FileRoutesByTo {
   '/painel/escalas': typeof PainelEscalasRoute
   '/painel/faturamento': typeof PainelFaturamentoRoute
   '/painel/gestor': typeof PainelGestorRoute
+  '/painel/planos': typeof PainelPlanosRoute
   '/painel/repasses': typeof PainelRepassesRoute
   '/painel/salas': typeof PainelSalasRoute
   '/painel/usuarios': typeof PainelUsuariosRoute
+  '/painel/whatsapp': typeof PainelWhatsappRoute
   '/painel': typeof PainelIndexRoute
 }
 export interface FileRoutesById {
@@ -210,9 +226,11 @@ export interface FileRoutesById {
   '/painel/escalas': typeof PainelEscalasRoute
   '/painel/faturamento': typeof PainelFaturamentoRoute
   '/painel/gestor': typeof PainelGestorRoute
+  '/painel/planos': typeof PainelPlanosRoute
   '/painel/repasses': typeof PainelRepassesRoute
   '/painel/salas': typeof PainelSalasRoute
   '/painel/usuarios': typeof PainelUsuariosRoute
+  '/painel/whatsapp': typeof PainelWhatsappRoute
   '/painel/': typeof PainelIndexRoute
 }
 export interface FileRouteTypes {
@@ -236,9 +254,11 @@ export interface FileRouteTypes {
     | '/painel/escalas'
     | '/painel/faturamento'
     | '/painel/gestor'
+    | '/painel/planos'
     | '/painel/repasses'
     | '/painel/salas'
     | '/painel/usuarios'
+    | '/painel/whatsapp'
     | '/painel/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -259,9 +279,11 @@ export interface FileRouteTypes {
     | '/painel/escalas'
     | '/painel/faturamento'
     | '/painel/gestor'
+    | '/painel/planos'
     | '/painel/repasses'
     | '/painel/salas'
     | '/painel/usuarios'
+    | '/painel/whatsapp'
     | '/painel'
   id:
     | '__root__'
@@ -283,9 +305,11 @@ export interface FileRouteTypes {
     | '/painel/escalas'
     | '/painel/faturamento'
     | '/painel/gestor'
+    | '/painel/planos'
     | '/painel/repasses'
     | '/painel/salas'
     | '/painel/usuarios'
+    | '/painel/whatsapp'
     | '/painel/'
   fileRoutesById: FileRoutesById
 }
@@ -438,6 +462,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PainelGestorRouteImport
       parentRoute: typeof PainelRoute
     }
+    '/painel/planos': {
+      id: '/painel/planos'
+      path: '/planos'
+      fullPath: '/painel/planos'
+      preLoaderRoute: typeof PainelPlanosRouteImport
+      parentRoute: typeof PainelRoute
+    }
     '/painel/repasses': {
       id: '/painel/repasses'
       path: '/repasses'
@@ -457,6 +488,13 @@ declare module '@tanstack/react-router' {
       path: '/usuarios'
       fullPath: '/painel/usuarios'
       preLoaderRoute: typeof PainelUsuariosRouteImport
+      parentRoute: typeof PainelRoute
+    }
+    '/painel/whatsapp': {
+      id: '/painel/whatsapp'
+      path: '/whatsapp'
+      fullPath: '/painel/whatsapp'
+      preLoaderRoute: typeof PainelWhatsappRouteImport
       parentRoute: typeof PainelRoute
     }
   }
@@ -479,9 +517,11 @@ interface PainelRouteChildren {
   PainelEscalasRoute: typeof PainelEscalasRoute
   PainelFaturamentoRoute: typeof PainelFaturamentoRoute
   PainelGestorRoute: typeof PainelGestorRoute
+  PainelPlanosRoute: typeof PainelPlanosRoute
   PainelRepassesRoute: typeof PainelRepassesRoute
   PainelSalasRoute: typeof PainelSalasRoute
   PainelUsuariosRoute: typeof PainelUsuariosRoute
+  PainelWhatsappRoute: typeof PainelWhatsappRoute
   PainelIndexRoute: typeof PainelIndexRoute
 }
 
@@ -492,9 +532,11 @@ const PainelRouteChildren: PainelRouteChildren = {
   PainelEscalasRoute: PainelEscalasRoute,
   PainelFaturamentoRoute: PainelFaturamentoRoute,
   PainelGestorRoute: PainelGestorRoute,
+  PainelPlanosRoute: PainelPlanosRoute,
   PainelRepassesRoute: PainelRepassesRoute,
   PainelSalasRoute: PainelSalasRoute,
   PainelUsuariosRoute: PainelUsuariosRoute,
+  PainelWhatsappRoute: PainelWhatsappRoute,
   PainelIndexRoute: PainelIndexRoute,
 }
 
